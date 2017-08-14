@@ -1,0 +1,152 @@
+##Count lines, words, characters
+	wc <fileName>
+	wc <file1> <file2> …… <fileN>
+	
+##output and error redirect
+	echo "a" > output.txt 2> error.txt  (output and error to different file)
+	echo "a" > output.txt 2>&1 (output and error to same file)
+	
+	
+##permission
+	u: user
+	g: group
+	o: others
+	+: add permission
+	-: remove permission
+	=: grant permission
+	absolute permission
+	read(4), write(2), execute(1)
+	chmod u+x <file1>   (add execute permission to user)
+	chmod o-wx <file1> (removes write and execute permission to others)
+	
+##Shell
+	when a user login to unix, the shell goes through initialization by reading /etc/profile file and user specific .profile file
+	
+##grep
+	-v: not match
+	-n: prints line number
+	-l: prints only the files
+	-L: prints only the files that don't match
+	-i: ignore case
+	-c: prints the count of matching lines
+	-A: prints n lines after matching
+	grep -A 3 string file 9 (prints matching line and 3 lines after the matching line)
+	
+	
+##sort
+	-n: sort numerically
+	-r: descending to ascending
+	+x: ignores first x files while sorting
+		a. 
+		sort by 4 field in ls -rlth
+		ls -rlth | sort +4
+	
+##vi
+	a: append
+	A: append to the end of line
+	i: insert
+	I: insert at the beginning of line
+	o: insert a line below
+	O: insert a line above
+	
+##script arguments
+	$0: filename
+	$1: first argument
+	$2: 2nd argument and so on
+	$#: number of argument
+	$*: list of all arguments (can loop over arguments using this)
+	$?: exit status for last command
+
+##array
+	
+##maths
+	echo `expr 2 + 2`  (output 4, separate numbers and + sign with space)
+	expr $a - $b
+	expr $a \* $b
+	expr $a / $b
+	expr $a % $b
+	[ $a == $b ]
+	[ $a != $b ]
+		○ Following operators only for numeric
+		-eq -ne -gt -lt -ge -le
+##Conditions
+	a=10
+	b=20
+	
+	if [ $a -eq $b ]
+	then
+	    echo "$a and $b are equal"
+	elif [ $a -gt $b ]
+	then
+	    echo "$a is greater than $b"
+	elif [ $a -lt $b -a $a -eq 100 ]
+	then
+	    echo "$a is smaller than $b and a = 10"
+	elif [ $a -lt $b -o $a -ne 10 ]
+	then
+	    echo "$a is less than $b or a is equal to 10"
+	else
+	    echo "done"
+	fi
+	
+##Loops
+	while <condition>
+	do
+	    command1
+	    command2
+	done
+	
+	for x in 1 2 3
+	do
+	   echo $x
+	done
+	
+##variable substitution
+	${var:=word} - if var is null or unset, it's assigned word
+	there are others as well
+	
+##input to a command
+	command << delimiter
+document
+delimiter
+	
+	From <https://www.tutorialspoint.com/unix/unix-io-redirections.htm> 
+	
+	
+	Here the shell interprets the << operator as an instruction to read input until it finds a line containing the specified delimiter
+	
+	From <https://www.tutorialspoint.com/unix/unix-io-redirections.htm> 
+	
+	
+	$ wc << ABC
+	> This is a text
+	> This is another text 2
+	> ABC
+	 2  9 38
+	
+##function
+	#!/bin/sh
+	# Define your function here
+Hello () {
+   echo "Hello World $1 $2"
+   return 10
+}
+	# Invoke your function
+Hello Zara Ali
+	# Capture value returnd by last command
+ret=$?
+	
+	From <https://www.tutorialspoint.com/unix/unix-shell-functions.htm> 
+	
+	output
+	Hello World Zara Ali
+Return value is 10
+	
+	From <https://www.tutorialspoint.com/unix/unix-shell-functions.htm> 
+	
+	
+##sed
+##awk
+##find
+##cut
+##tee
