@@ -163,6 +163,31 @@
 	
 
 ##awk
+	#to print different columns
+	#$n to print all columns
+	awk -F <delimiter> '{print $1, $2}'  <file>
+	
+	#the code inside {} will only be executed if condition is true (7==7)
+	awk -F <delimiter> '<condition 7==7> {print $1, $2}'  <file> 
+	
+	#only when the word is there in the line
+	awk -F <delimiter> '/<word>/ {print $1, $2}' <file> 
+	
+	#NF prints the last field
+	awk -F <delimiter> '{print $NF}' <file>      
+	
+	#print second and third column if second column >200
+	awk '$2>200 {print $1,$2}' <file>      
+	
+	#similar as above
+	awk '$4=="Google" {print $1}' input.txt 
+	
+	#count number of lines for which column 2 >1000
+	awk 'BEGIN {count=0;} $2>1000 {count++} END {print count}' input.txt 
+	
+
+
+
 ##find
 	#find files/folders by name
 	find . -name "searchFileName" -print
