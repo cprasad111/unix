@@ -1,4 +1,2 @@
-Ram 1000 Male DBS
-Mohan 2000 Male SBI
-Geeta 3000 Female Google
-Jaya 1001 Female Facebook
+z a b
+a z b

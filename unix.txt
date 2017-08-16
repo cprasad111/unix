@@ -36,10 +36,18 @@
 ##sort
 	-n: sort numerically
 	-r: descending to ascending
-	+x: ignores first x files while sorting
+	+x: ignores first x columns while sorting
 		a. 
 		sort by 4 field in ls -rlth
 		ls -rlth | sort +4
+	instead of +x, use -k 5 (sort by 5th field)
+	
+	#tab delimited 2nd field sort
+	sort -t $'\t' -k 2
+	
+	#pipe delimited 2nd column descending order
+	sort -t "|" -nr -k 2
+	
 	
 ##vi
 	a: append
@@ -58,18 +66,62 @@
 	$?: exit status for last command
 
 ##array
+
+##input
+	read <variableName> #it'll prompt for input
 	
+	
+##maths using bc
+	#average of n numbers
+	#!/bin/sh
+	sum=0
+	read a
+	for ((i=1; i<=$a; i++))
+	do
+		read num
+		sum=$(($sum+$num))
+	done
+	b=`echo $sum/$a | bc -l`
+	printf "%.3f" $b
+	
+
+
 ##maths
+	#old
 	echo `expr 2 + 2`  (output 4, separate numbers and + sign with space)
 	expr $a - $b
 	expr $a \* $b
 	expr $a / $b
 	expr $a % $b
+	
+	#new (posix) does not support floating numbers
+	(( 2+2 ))
+	(( $a - $b ))
+	
+	#math example
+	a=5
+	b=2
+	sum=$(( $a+$b ))   #no space between variable and = and $ sign
+	echo $sum
+	c=$(( $a - $b))
+	echo $c
+	
 	[ $a == $b ]
 	[ $a != $b ]
-		○ Following operators only for numeric
+	
+	#Following operators only for numeric
 		-eq -ne -gt -lt -ge -le
-##Conditions
+		
+	# output to fixed number of decimal, notice multiple lines
+	awk 'BEGIN {
+	> OFMT="%.3f"
+	> print 12.2343, 2.2 }'
+	12.234 2.200
+	
+	
+
+	
+##Conditions on numbers
 	a=10
 	b=20
 	
@@ -89,6 +141,11 @@
 	    echo "done"
 	fi
 	
+##conditionals on string  (==, !=, >=, <=)
+	if [ $a == "Y" -o $a == "y" ]
+	if [ $var != "y" -a $var != "Y" ]
+
+	
 ##Loops
 	while <condition>
 	do
@@ -101,6 +158,13 @@
 	do
 	   echo $x
 	done
+	
+	#for ((i=1; i<100; i++))
+	for i in {1..100}
+		do
+        echo $i
+	done
+	
 	
 ##variable substitution
 	${var:=word} - if var is null or unset, it's assigned word
@@ -147,6 +211,9 @@
 	#search and replace all occurence in each line
 	sed 's/search_string/replace_string/g' file > outputFile
 	
+	#multiple space to single space
+	sed 's/  */ /g'
+	
 	#sed to delete
 	sed '2d' <file> | more #deletes the second line and displays the output. The actual file is not edited
 	sed '1,3d' <file> | more #deletes line from 1 to 3 and print. The actual file is not edited
@@ -185,6 +252,17 @@
 	#count number of lines for which column 2 >1000
 	awk 'BEGIN {count=0;} $2>1000 {count++} END {print count}' input.txt 
 	
+	#math arithematic
+	awk 'BEGIN {print 10/3}'  #output 3.33
+	
+	#output 3.33
+	x=10
+	y=3
+	awk -v varx="$x" -v vary="$y" 'BEGIN {print varx/vary}'
+	
+	#awk format
+	printf "%.3f %.5f", 12.3, 3}'
+	
 
 
 
@@ -220,11 +298,18 @@
 	same as above
 	
 	#cut by delimiter
+	#default delimiter is tab
+	cut -f 2 #2nd column tab delimited
+	
 	echo a,b,c,d | cut -d ',' -f 1
 	output: a
 	
 	echo a,b,c,d | cut -d ',' -f 1-3
 	a,b,c
+	
+	#print 3rd to the end
+	cut -d ',' -f 3-
+	
 	
 	#print that is not cut by the command
 	echo a,b,c,d | cut --complement -d ',' -f 1
@@ -237,5 +322,40 @@
 	echo 'how;now;brown;cow' | cut -d ';' -f 1,3,4 --output-delimiter=','
 	output; how,brown,cow
 
+#head
+	#first 20 lines
+	head -20 <file>
+	head -n 20 <file>
+	
+	#first 20 characters
+	head -c 20
+	
+#tail 
+	#last 20 lines
+	tail -n 20
+	
+	#last 20 character
+	tail -c 20
+	
+#tr
+	#works character by character replacement
+	#replace a with x
+	echo "abcd" | tr "a" "x"
+	>> xbcd
+	
+	#replace a with x and d with p
+	echo "abcd" | tr "ad" "xp"
+	
+	#delete char a
+	echo "abcd" | tr -d "a"
+	>> bcd
+	
+	#delete all small char
+	echo "abcAdB" | tc -d [a-z]
+	>> AB
+	
+	#multipel space to single space
+	echo "a    bc   d" | tr -s " "
+	>> a bc d
 	
 
