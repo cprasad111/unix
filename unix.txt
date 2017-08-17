@@ -22,6 +22,17 @@
 ##Shell
 	when a user login to unix, the shell goes through initialization by reading /etc/profile file and user specific .profile file
 	
+##export
+	#export a variable to be used in sub shell
+	#if we define a="value" in parent.sh script. export a in the same script will make the variable 'a' visible in all the child script called by parent.sh
+	#parent.sh
+	a="value"
+	export a
+	/path/child.sh
+	
+	#child.sh
+	echo $a #this will print "value"
+	
 ##grep
 	-v: not match
 	-n: prints line number
