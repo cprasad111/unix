@@ -369,4 +369,36 @@
 	echo "a    bc   d" | tr -s " "
 	>> a bc d
 	
+#uniq
+	#removes consecutive repititions of lines
+	cat file.txt | uniq
+	
+	#sort and removes consecutive repititions
+	cat file.txt | sort | uniq
+	
+	#ignore case -i, -c to display the number of repititions
+	cat file.txt | uniq -c -i
+	
+	# -d: only prints duplicated lines once
+	# -D: prints duplicated lines as many times it appears
+	# -u: print only uniq lines
 
+#paste
+	#paste commands changes multiple line into single line with tab delimited by default
+	
+	#multiple to 1 line
+	paste -s file.txt
+	
+	#multiple to 1 with delimiter
+	paste -d -s , file.txt
+	
+	#multiple file side by side
+	paste file.txt file2.txt
+	
+	#multiple files sequentially, firt one file, then another file
+	paste -s file.txt file2.txt
+
+	#group 3 line in one and separated by .
+	paste -s -d '..\n' input.txt
+	
+#array
